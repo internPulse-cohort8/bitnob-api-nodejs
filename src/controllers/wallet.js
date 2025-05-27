@@ -1,3 +1,3 @@
 export const createWallet = () => {
-    return console.log("Create wallet")
+    return console.log("Create wallet: ")
 }
