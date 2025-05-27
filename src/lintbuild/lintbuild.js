@@ -9,5 +9,5 @@ export const createdWallet = () => {
 
 export const createWalletss = () => {
   const user = 'John';
-  console.log('Create wallet');
+  console.log(user, 'Create wallet');
 };
