@@ -1,5 +1,5 @@
 describe('Example tests', () => {
   test('basic test', () => {
-    expect(1 + 1).toBe(2);
+    expect(1 + 1).toBe(w2);
   });
 });
