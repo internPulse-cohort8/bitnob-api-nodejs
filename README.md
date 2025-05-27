@@ -1,6 +1,6 @@
-# Fintech Backend API
+# Bitnob Integration Nodejs
 
-A Node.js backend for [your fintech product description] using Bitnob API.
+This project is a Node.js backend API built to integrate with the Bitnob API as part of the InternPulse Cohort 8 program. It simulates the backend infrastructure of a fintech product (e.g., crypto wallet, savings app, transaction tracker) by providing essential crypto-related features.
 
 ## Project Setup
 
@@ -15,9 +15,10 @@ A Node.js backend for [your fintech product description] using Bitnob API.
    npm install
    ```
 
-3. Create a `.env` file based on `.env.example`:
+3. Create a `.env` file :
    ```bash
-   cp .env.example .env
+   touch .env # echo. > .env for windows
+
    ```
 
 4. Fill in the required environment variables in `.env`.
@@ -27,7 +28,7 @@ A Node.js backend for [your fintech product description] using Bitnob API.
 We follow a two-branch workflow:
 
 - `main`: Production branch (protected)
-- `dev`: Development branch (protected)
+- `dev`: Development branch (protected). Always pull from dev
 
 ### Working on a feature:
 
@@ -46,6 +47,15 @@ We follow a two-branch workflow:
    ```bash
    git add .
    git commit -m "feat: your feature description"
+   ```
+   ### example ofGood commit messages:
+   ```
+   feat: add user authentication endpoint
+   fix: resolve payment processing timeout issue
+   docs: update API documentation for webhook handlers
+   refactor: simplify database connection logic
+   test: add unit tests for transaction service
+   ci: update Node.js version in GitHub Actions
    ```
 
 4. Push your branch:
