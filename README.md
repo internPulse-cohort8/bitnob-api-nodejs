@@ -7,7 +7,7 @@ This project is a Node.js backend API built to integrate with the Bitnob API as 
 1. Clone the repository:
    ```bash
    git clone https://github.com/internPulse-cohort8/bitnob-api-nodejs.git
-   cd bitnob-api-nodejs.git
+   cd bitnob-api-nodejs
    ```
 
 2. Install dependencies:
