@@ -5,7 +5,7 @@ import { config } from './configs/config.env.js';
 const app = express();
 const SERVER_PORT = config.SERVER_PORT;
 
-createWallet();
+createWallet(); // Example usage of createWallet function
 app.listen(SERVER_PORT, ()=> {
     console.log(`Server running on port: ${SERVER_PORT}`)
 })
