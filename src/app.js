@@ -1,0 +1,25 @@
+import express from 'express';
+import dotenv from 'dotenv';
+import currencyRoutes from './routes/currencyRoutes.js';
+
+dotenv.config();
+
+const app = express();
+
+// Middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Routes
+app.use('/api/currency', currencyRoutes);
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({
+    success: false,
+    error: 'Something went wrong!'
+  });
+});
+
+export default app;
