@@ -1,12 +1,11 @@
 import express from 'express';
-import dotenv from 'dotenv'
 import { createWallet } from './controllers/wallet.js';
-dotenv.config();
+import { config } from './configs/config.env.js';
 
 const app = express();
-const port = process.env.PORT || 4000
+const SERVER_PORT = config.SERVER_PORT;
 
 createWallet();
-app.listen(port, ()=> {
-    console.log(`Server running on port: ${port}`)
+app.listen(SERVER_PORT, ()=> {
+    console.log(`Server running on port: ${SERVER_PORT}`)
 })
