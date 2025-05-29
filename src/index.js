@@ -3,7 +3,7 @@ import hpp from 'hpp';
 import helmet from 'helmet';
 import cors from 'cors';
 import compression from 'compression';
-import { createWallet } from './controllers/wallet.js';
+//import { createWallet } from './controllers/wallet.js';
 import { config } from './configs/config.env.js';
 
 const app = express();
