@@ -22,7 +22,7 @@ app.use(compression());
 app.use(json({ limit: '200mb' }));
 app.use(urlencoded({ extended: true, limit: '200mb' }));
 
- createWallet(); // Example usage of createWallet function
+//  createWallet(); // Example usage of createWallet function
 
 
 import walletRoutes from './controllers/wallet.js';
