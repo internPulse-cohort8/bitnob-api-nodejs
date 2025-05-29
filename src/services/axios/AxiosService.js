@@ -7,6 +7,7 @@ export class AxiosService {
       baseURL: baseURL,
       headers: {
         'Content-Type': 'application/json',
+        Accept: 'application/json',
         ...(apiKey && { Authorization: `Bearer ${apiKey}` }),
       },
     });
@@ -14,27 +15,27 @@ export class AxiosService {
 
   async get(url, config = {}) {
     const res = await this.http.get(url, config);
-    return res.data;
+    return res;
   }
 
   async post(url, data = {}, config = {}) {
     const res = await this.http.post(url, data, config);
-    return res.data;
+    return res;
   }
 
   async put(url, data = {}, config = {}) {
     const res = await this.http.put(url, data, config);
-    return res.data;
+    return res;
   }
 
   async patch(url, data = {}, config = {}) {
     const res = await this.http.patch(url, data, config);
-    return res.data;
+    return res;
   }
 
   async delete(url, config = {}) {
     const res = await this.http.delete(url, config);
-    return res.data;
+    return res;
   }
 
   setAuthToken(token) {
