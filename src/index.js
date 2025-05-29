@@ -22,11 +22,19 @@ app.use(compression());
 app.use(json({ limit: '200mb' }));
 app.use(urlencoded({ extended: true, limit: '200mb' }));
 
-createWallet(); // Example usage of createWallet function
+// createWallet(); // Example usage of createWallet function
 
 
+import walletRoutes from './controllers/wallet.js';
+
+app.use('/wallet', walletRoutes);
 
 
-app.listen(SERVER_PORT, ()=> {
-    console.log(`Server running on port: ${SERVER_PORT}`)
-})
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(SERVER_PORT, () => {
+    console.log(`Server running on port: ${SERVER_PORT}`);
+  });
+}
+
+// Export app so Supertest can use it
+export default app;
