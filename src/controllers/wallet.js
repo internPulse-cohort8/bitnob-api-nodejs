@@ -106,10 +106,10 @@ export const createWallet = async (req, res) => {
             });
         } else {
             // Something happened in setting up the request
-            return res.status(500).json({
-                status: false,
-                message: error.message || 'Error setting up the request'
-            });
+            // return res.status(500).json({
+            //     status: false,
+            //     message: error.message || 'Error setting up the request'
+            // });
         }
     }
 };

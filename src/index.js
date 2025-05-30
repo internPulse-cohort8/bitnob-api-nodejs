@@ -8,6 +8,11 @@ import { config } from './configs/config.env.js';
 import { customersRouter } from './routes/customersRoutes.js';
 import { BaseError } from './errors/errors.js';
 
+//DB connection
+import sequelize from './db/config.js';
+import './models/wallet.js';
+import './models/transaction.js'
+
 const app = express();
 
 const SERVER_PORT = config.SERVER_PORT || 4000;
@@ -35,6 +40,28 @@ app.use((error, _req, res, next) => {
   next();
 });
 
-app.listen(SERVER_PORT, ()=> {
+const start = async () => {
+  try {
+    // Connect to Database
+    await sequelize.authenticate();
+    console.log('Connected to postgres DB');
+
+    // Sync all table models
+    await sequelize.sync({alter: true, force: true})
+    console.log("Models synchronized");
+
+    // Start the server
+    app.listen(SERVER_PORT, ()=> {
     console.log(`Server running on port: ${SERVER_PORT}`)
-})
+  });
+  } catch (error) { 
+    console.log('Error starting the server', error);
+  };
+}
+
+start();
+
+
+// app.listen(SERVER_PORT, ()=> {
+//     console.log(`Server running on port: ${SERVER_PORT}`)
+// })
