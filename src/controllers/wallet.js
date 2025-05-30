@@ -114,3 +114,88 @@ export const createWallet = async (req, res) => {
     }
 };
 
+// Get all wallets
+export const getAllWallets = async (req, res) => {
+    try {
+        if (!BITNOB_API_KEY) {
+            return res.status(500).json({
+                status: false,
+                message: 'API key is not configured'
+            });
+        }
+
+        const response = await axios({
+            method: 'GET',
+            url: `${BITNOB_API_URL}/wallets`,
+            headers: {
+                'accept': 'application/json',
+                'Authorization': `Bearer ${BITNOB_API_KEY.trim()}`
+            }
+        });
+
+        return res.status(200).json(response.data);
+    } catch (error) {
+        console.error('Error fetching wallets:', error.message);
+        
+        if (error.response) {
+            return res.status(error.response.status).json({
+                status: false,
+                message: error.response.data?.message || 'Failed to fetch wallets',
+                details: error.response.data
+            });
+        }
+        
+        return res.status(500).json({
+            status: false,
+            message: 'Error fetching wallets'
+        });
+    }
+};
+
+// Get wallet by coin
+export const getWalletByCoin = async (req, res) => {
+    try {
+        const { coin } = req.params;
+
+        if (!coin || !['trx', 'bnb'].includes(coin)) {
+            return res.status(400).json({
+                status: false,
+                message: 'Invalid coin type. Must be either "trx" or "bnb"'
+            });
+        }
+
+        if (!BITNOB_API_KEY) {
+            return res.status(500).json({
+                status: false,
+                message: 'API key is not configured'
+            });
+        }
+
+        const response = await axios({
+            method: 'GET',
+            url: `${BITNOB_API_URL}/wallets/crypto-wallet/${coin}`,
+            headers: {
+                'accept': 'application/json',
+                'Authorization': `Bearer ${BITNOB_API_KEY.trim()}`
+            }
+        });
+
+        return res.status(200).json(response.data);
+    } catch (error) {
+        console.error('Error fetching wallet:', error.message);
+        
+        if (error.response) {
+            return res.status(error.response.status).json({
+                status: false,
+                message: error.response.data?.message || 'Failed to fetch wallet',
+                details: error.response.data
+            });
+        }
+        
+        return res.status(500).json({
+            status: false,
+            message: 'Error fetching wallet'
+        });
+    }
+};
+
