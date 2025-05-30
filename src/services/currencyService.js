@@ -1,41 +1,14 @@
-import axios from 'axios';
-import dotenv from 'dotenv';
+import BaseBitnobService from './baseBitnobService.js';
 
-dotenv.config();
-
-const BITNOB_API_URL = 'https://sandboxapi.bitnob.co/api/v1';
-const API_KEY = process.env.BITNOB_API_KEY;
-
-class CurrencyService {
-  constructor() {
-    this.client = axios.create({
-      baseURL: BITNOB_API_URL,
-      headers: {
-        'Authorization': `Bearer ${API_KEY}`,
-        'Content-Type': 'application/json'
-      },
-      validateStatus: function (status) {
-        return status >= 200 && status < 500;
-      }
-    });
-  }
-
+class CurrencyService extends BaseBitnobService {
   async getCurrencyRate(currency) {
     try {
-      // Log the request details for debugging
-      console.log('Making request to Bitnob API with:', {
-        currency,
-        url: `${BITNOB_API_URL}/wallets/payout/rate/${currency}`,
-        headers: {
-          'Authorization': `Bearer ${API_KEY.substring(0, 10)}...`,
-          'Content-Type': 'application/json'
-        }
-      });
+      this.logRequest(`/wallets/payout/rate/${currency}`, { currency });
 
       const response = await this.client.get(`/wallets/payout/rate/${currency}`);
       
       if (response.status >= 400) {
-        console.error('Bitnob API Error Response:', response.data);
+        this.logError(response);
         return {
           success: false,
           error: response.data?.message || 'Failed to get currency rate'
@@ -47,13 +20,7 @@ class CurrencyService {
         data: response.data
       };
     } catch (error) {
-      console.error('Full Bitnob API Error:', {
-        status: error.response?.status,
-        statusText: error.response?.statusText,
-        data: error.response?.data,
-        headers: error.response?.headers
-      });
-      
+      this.logError(error);
       return {
         success: false,
         error: error.response?.data?.message || 'Failed to get currency rate'
@@ -63,24 +30,14 @@ class CurrencyService {
 
   async convertCurrency(amount, fromCurrency, toCurrency) {
     try {
-      // Log the request details for debugging
-      console.log('Making request to Bitnob API with:', {
-        amount,
-        fromCurrency,
-        toCurrency,
-        url: `${BITNOB_API_URL}/wallets/payout/rates`,
-        headers: {
-          'Authorization': `Bearer ${API_KEY.substring(0, 10)}...`,
-          'Content-Type': 'application/json'
-        }
-      });
+      this.logRequest('/wallets/payout/rates', { amount, fromCurrency, toCurrency });
 
       // Get all rates
       const ratesResponse = await this.client.get('/wallets/payout/rates');
       console.log('Rates Response:', ratesResponse.data);
 
       if (ratesResponse.status >= 400) {
-        console.error('Bitnob API Error Response:', ratesResponse.data);
+        this.logError(ratesResponse);
         return {
           success: false,
           error: ratesResponse.data?.message || 'Failed to get exchange rates'
@@ -118,18 +75,7 @@ class CurrencyService {
         }
       };
     } catch (error) {
-      console.error('Full Bitnob API Error:', {
-        status: error.response?.status,
-        statusText: error.response?.statusText,
-        data: error.response?.data,
-        headers: error.response?.headers,
-        config: {
-          url: error.config?.url,
-          method: error.config?.method,
-          headers: error.config?.headers
-        }
-      });
-      
+      this.logError(error);
       return {
         success: false,
         error: error.response?.data?.message || 'Failed to convert currency'
@@ -142,7 +88,7 @@ class CurrencyService {
       const response = await this.client.get('/wallets/payout/rates');
       
       if (response.status >= 400) {
-        console.error('Bitnob API Error Response:', response.data);
+        this.logError(response);
         return {
           success: false,
           error: response.data?.message || 'Failed to fetch exchange rates'
@@ -154,13 +100,7 @@ class CurrencyService {
         data: response.data
       };
     } catch (error) {
-      console.error('Full Bitnob API Error:', {
-        status: error.response?.status,
-        statusText: error.response?.statusText,
-        data: error.response?.data,
-        headers: error.response?.headers
-      });
-      
+      this.logError(error);
       return {
         success: false,
         error: error.response?.data?.message || 'Failed to fetch exchange rates'

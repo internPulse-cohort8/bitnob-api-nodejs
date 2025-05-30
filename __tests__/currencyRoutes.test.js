@@ -20,9 +20,19 @@ mockedCurrencyService.getCurrencyRate = jest.fn();
 mockedCurrencyService.getExchangeRates = jest.fn();
 mockedCurrencyService.convertCurrency = jest.fn();
 
-const app = express();
-app.use(express.json());
-app.use('/api/currency', currencyRoutes);
+let app;
+let server;
+
+beforeAll(() => {
+  app = express();
+  app.use(express.json());
+  app.use('/api/currency', currencyRoutes);
+  server = app.listen(0); // Use port 0 for random available port
+});
+
+afterAll(async () => {
+  await new Promise((resolve) => server.close(resolve));
+});
 
 describe('Currency Routes', () => {
   beforeEach(() => {

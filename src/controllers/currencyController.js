@@ -40,7 +40,8 @@ export const convertCurrency = async (req, res) => {
   } catch (error) {
     return res.status(500).json({
       success: false,
-      error: 'Internal server error'
+      error: 'Internal server error',
+      message: error.message
     });
   }
 };
@@ -57,7 +58,8 @@ export const getExchangeRates = async (req, res) => {
   } catch (error) {
     return res.status(500).json({
       success: false,
-      error: 'Internal server error'
+      error: 'Internal server error',
+      message: error.message
     });
   }
 }; 

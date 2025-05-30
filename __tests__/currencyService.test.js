@@ -1,5 +1,5 @@
 import { jest } from '@jest/globals';
-import axios from 'axios';
+
 
 // Mock the entire service module
 jest.mock(process.cwd() + '/src/services/currencyService.js', () => {

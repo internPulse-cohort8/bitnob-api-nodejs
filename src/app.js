@@ -14,7 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/currency', currencyRoutes);
 
 // Error handling middleware
-app.use((err, req, res, next) => {
+app.use((err, req, res) => {
   console.error(err.stack);
   res.status(500).json({
     success: false,
