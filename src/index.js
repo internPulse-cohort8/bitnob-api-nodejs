@@ -3,7 +3,7 @@ import hpp from 'hpp';
 import helmet from 'helmet';
 import cors from 'cors';
 import compression from 'compression';
-import { createWallet } from './controllers/wallet.js';
+import walletRoute from './routes/walletRoute.js';
 import { config } from './configs/config.env.js';
 import { customersRouter } from './routes/customersRoutes.js';
 import { BaseError } from './errors/errors.js';
@@ -29,7 +29,7 @@ app.use(compression());
 app.use(json({ limit: '200mb' }));
 app.use(urlencoded({ extended: true, limit: '200mb' }));
 
-createWallet(); // Example usage of createWallet function
+app.use('/api/wallet', walletRoute);
 
 app.use(`${BASE_URL}/customers`, customersRouter);
 
@@ -47,7 +47,7 @@ const start = async () => {
     console.log('Connected to postgres DB');
 
     // Sync all table models
-    await sequelize.sync({alter: true, force: true})
+    await sequelize.sync({alter: true})
     console.log("Models synchronized");
 
     // Start the server
