@@ -3,7 +3,7 @@ import hpp from 'hpp';
 import helmet from 'helmet';
 import cors from 'cors';
 import compression from 'compression';
-import { createWallet } from './controllers/wallet.js';
+import walletRoute from './routes/walletRoute.js';
 import { config } from './configs/config.env.js';
 
 const app = express();
@@ -22,9 +22,7 @@ app.use(compression());
 app.use(json({ limit: '200mb' }));
 app.use(urlencoded({ extended: true, limit: '200mb' }));
 
-createWallet(); // Example usage of createWallet function
-
-
+app.use('/api/wallet', walletRoute);
 
 
 app.listen(SERVER_PORT, ()=> {
