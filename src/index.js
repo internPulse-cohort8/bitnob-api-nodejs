@@ -44,7 +44,7 @@ app.use(`${BASE_URL}/customers`, customersRouter);
 app.use(`${BASE_URL}/currency`, currencyRoutes);
 
 // Error handling middleware
-app.use((error, _req, res, next) => {
+app.use((error, _req, res) => {
   if (error instanceof BaseError) {
     return res.status(error.statusCode).json(error.toJSON());
   }
