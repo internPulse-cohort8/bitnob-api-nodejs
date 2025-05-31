@@ -58,11 +58,9 @@ export const sendBitcoin = async (req, res) => {
                 data: data
             });
         } else {
-             console.error('Send bitcoin error:', error.response?.data || error.message);
             return res.status(400).json({
                 status: false,
                 message: 'Failed to send bitcoin',
-                data: error.response?.data || error.message
             });
         };
 
