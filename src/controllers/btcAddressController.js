@@ -1,6 +1,5 @@
 import { z } from 'zod';
 import btcAddressService from '../services/btcAddressService.js';
-import { BadRequestError, NotFoundError } from '../errors/errors.js';
 import { StatusCodes } from 'http-status-codes';
 
 // Validation schemas
