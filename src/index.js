@@ -19,6 +19,7 @@ import { BaseError } from './errors/errors.js';
 // Models
 import './models/wallet.js';
 import './models/transaction.js';
+import { transactionRoute } from './routes/transaction.js';
 import './models/btcAddressModel.js';
 
 // Load environment variables
@@ -44,6 +45,7 @@ app.use(urlencoded({ extended: true, limit: '200mb' }));
 app.use('/api/wallet', walletRoute);
 app.use(`${BASE_URL}/customers`, customersRouter);
 app.use(`${BASE_URL}/currency`, currencyRoutes);
+app.use(`${BASE_URL}/transaction`, transactionRoute);
 app.use(`${BASE_URL}/btc/address`, btcAddressRoutes);
 
 // Error handling middleware
