@@ -8,10 +8,7 @@
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
     "lint": "eslint . --max-warnings=0",
-    "test": "jest"
-  },
-  "jest": {
-    "testEnvironment": "node"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
   },
   "keywords": [],
   "author": "",
