@@ -6,7 +6,7 @@ import cors from 'cors';
 import compression from 'compression';
 
 // Routes
-import walletRoute from './routes/walletRoute.js';
+import walletRoute from './routes/walletRoutes.js';
 import { customersRouter } from './routes/customersRoutes.js';
 import currencyRoutes from './routes/currencyRoutes.js';
 import transactionRoutes from './routes/transactionRoutes.js';
