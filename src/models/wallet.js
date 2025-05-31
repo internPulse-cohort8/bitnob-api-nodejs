@@ -9,7 +9,9 @@ export const wallet = sequelize.define('Wallet', {
         primaryKey: true
     },
     user_id: {
-        type: DataTypes.UUID
+        type: DataTypes.UUID,
+        unique: true,  
+        allowNull: false,
     },
     wallet_type: {
         type: DataTypes.STRING(10),
