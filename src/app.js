@@ -1,6 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import currencyRoutes from './routes/currencyRoutes.js';
+import { transactionRoute } from './routes/transaction.js';
 
 dotenv.config();
 
@@ -12,6 +13,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use('/api/currency', currencyRoutes);
+app.use('/api/currency', transactionRoute);
 
 // Error handling middleware
 app.use((err, req, res) => {
