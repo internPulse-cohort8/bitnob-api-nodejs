@@ -1,56 +1,88 @@
-import { transaction } from "../models/transaction.js";
+import { z } from 'zod';
+import transactionService from '../services/transactionService.js';
 
-// src/controllers/transactionController.js
+const transactionCreateSchema = z.object({
+  amount: z.number().positive(),
+  currency: z.string().min(3).max(3),
+  sender_id: z.string().uuid(),
+  receiver_id: z.string().uuid(),
+  txn_type: z.enum(['deposit', 'withdrawal', 'transfer'])
+});
 
-const { transaction } = require('../models');
+const transactionUpdateSchema = z.object({
+  txn_status: z.enum(['pending', 'completed', 'failed']),
+  confirmed_at: z.date().optional()
+});
 
-exports.createTransaction = async (req, res) => {
+export const createTransaction = async (req, res) => {
   try {
-    const txn = await transaction.create(req.body);
-    res.status(201).json({ success: true, data: txn });
-  } catch (error) {
-    console.error("Create Transaction Error:", error.message);
-    res.status(500).json({ success: false, message: error.message });
-  }
-};
-
-exports.getAllTransactions = async (req, res) => {
-  try {
-    const txns = await transaction.findAll();
-    res.status(200).json({ success: true, data: txns });
-  } catch (error) {
-    console.error("Fetch Transactions Error:", error.message);
-    res.status(500).json({ success: false, message: error.message });
-  }
-};
-
-exports.getTransactionById = async (req, res) => {
-  try {
-    const txn = await transaction.findByPk(req.params.id);
-    if (!txn) {
-      return res.status(404).json({ success: false, message: "Transaction not found" });
-    }
-    res.status(200).json({ success: true, data: txn });
-  } catch (error) {
-    console.error("Get Transaction Error:", error.message);
-    res.status(500).json({ success: false, message: error.message });
-  }
-};
-
-exports.updateTransactionStatus = async (req, res) => {
-  try {
-    const txn = await transaction.findByPk(req.params.id);
-    if (!txn) {
-      return res.status(404).json({ success: false, message: "Transaction not found" });
+    const validationResult = transactionCreateSchema.safeParse(req.body);
+    if (!validationResult.success) {
+      return res.status(400).json({
+        success: false,
+        error: 'Invalid transaction data',
+        details: validationResult.error.errors
+      });
     }
 
-    txn.txn_status = req.body.txn_status;
-    txn.confirmed_at = req.body.confirmed_at;
-    await txn.save();
-
-    res.status(200).json({ success: true, data: txn });
+    const result = await transactionService.createTransaction(req.body);
+    return res.status(result.success ? 201 : 400).json(result);
   } catch (error) {
-    console.error("Update Transaction Error:", error.message);
-    res.status(500).json({ success: false, message: error.message });
+    return res.status(500).json({
+      success: false,
+      error: 'Internal server error',
+      message: error.message
+    });
+  }
+};
+
+export const getAllTransactions = async (req, res) => {
+  try {
+    const result = await transactionService.getAllTransactions();
+    return res.status(result.success ? 200 : 400).json(result);
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      error: 'Internal server error',
+      message: error.message
+    });
+  }
+};
+
+export const getTransactionById = async (req, res) => {
+  try {
+    const result = await transactionService.getTransactionById(req.params.id);
+    return res.status(result.success ? 200 : (result.status || 400)).json(result);
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      error: 'Internal server error',
+      message: error.message
+    });
+  }
+};
+
+export const updateTransactionStatus = async (req, res) => {
+  try {
+    const validationResult = transactionUpdateSchema.safeParse(req.body);
+    if (!validationResult.success) {
+      return res.status(400).json({
+        success: false,
+        error: 'Invalid status data',
+        details: validationResult.error.errors
+      });
+    }
+
+    const result = await transactionService.updateTransactionStatus(
+      req.params.id,
+      req.body
+    );
+    return res.status(result.success ? 200 : (result.status || 400)).json(result);
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      error: 'Internal server error',
+      message: error.message
+    });
   }
 };

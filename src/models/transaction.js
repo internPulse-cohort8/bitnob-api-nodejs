@@ -55,3 +55,4 @@ export const transaction = sequelize.define('transaction', {
 {   timestamps: true,
     tableName: 'transaction'
 });
+export default transaction;
