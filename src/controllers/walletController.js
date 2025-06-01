@@ -24,7 +24,8 @@ export const createWallet = async (req, res) => {
     }
 
     return res.status(201).json(result);
-  } catch (error) {
+  } catch (error) {  
+      console.error(error);
     return res.status(500).json({
       success: false,
       error: 'Internal server error'
@@ -41,7 +42,8 @@ export const getAllWallets = async (req, res) => {
     }
 
     return res.status(200).json(result);
-  } catch (error) {
+  } catch (error) {    
+    console.error(error);
     return res.status(500).json({
       success: false,
       error: 'Internal server error'
@@ -60,6 +62,7 @@ export const getWalletByCoin = async (req, res) => {
 
     return res.status(200).json(result);
   } catch (error) {
+        console.error(error);
     return res.status(500).json({
       success: false,
       error: 'Internal server error'
