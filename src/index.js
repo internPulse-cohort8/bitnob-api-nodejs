@@ -6,9 +6,10 @@ import cors from 'cors';
 import compression from 'compression';
 
 // Routes
-import walletRoute from './routes/walletRoute.js';
+import walletRoute from './routes/walletRoutes.js';
 import { customersRouter } from './routes/customersRoutes.js';
 import currencyRoutes from './routes/currencyRoutes.js';
+import transactionRoutes from './routes/transactionRoutes.js';
 import btcAddressRoutes from './routes/btcAddressRoutes.js';
 
 // Config and DB
@@ -45,6 +46,7 @@ app.use(urlencoded({ extended: true, limit: '200mb' }));
 app.use('/api/wallet', walletRoute);
 app.use(`${BASE_URL}/customers`, customersRouter);
 app.use(`${BASE_URL}/currency`, currencyRoutes);
+app.use(`${BASE_URL}/transactions`, transactionRoutes);
 app.use(`${BASE_URL}/transaction`, transactionRoute);
 app.use(`${BASE_URL}/btc/address`, btcAddressRoutes);
 

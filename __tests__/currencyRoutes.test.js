@@ -135,4 +135,4 @@ describe('Currency Routes', () => {
       expect(mockedCurrencyService.convertCurrency).not.toHaveBeenCalled();
     });
   });
-}); 
+});
