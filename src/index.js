@@ -49,7 +49,7 @@ app.use(`${BASE_URL}/transaction`, transactionRoute);
 app.use(`${BASE_URL}/btc/address`, btcAddressRoutes);
 
 // Error handling middleware
-app.use((error, _req, res) => {
+app.use((error, req, res, next) => { // eslint-disable-line no-unused-vars
   if (error instanceof BaseError) {
     return res.status(error.statusCode).json(error.toJSON());
   }
